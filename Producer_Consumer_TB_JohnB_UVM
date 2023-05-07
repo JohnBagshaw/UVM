@@ -1,0 +1,100 @@
+// Code your testbench here...
+
+// *** Senior Design Verification and Embedded Systems Engineer: John Bagshaw ***
+
+// The purpose of this testbench is to illustrate how to create a producer-consumer system that is completely independent and how to connect them using a UVM TLM FIFO channel.
+
+// A simple producer-consumer system that uses a Universal Verification Methodology (UVM) library.
+
+// The testbench consists of three main classes: producer, consumer, and env.
+
+// The producer class has a put_port, which is a UVM blocking put port, used to send integer values through a UVM TLM (Transaction Level Modeling) FIFO channel. The consumer class has a get_port, which is a UVM blocking get port, used to receive integer values from the FIFO channel.
+
+// The env class has instances of the producer, consumer, and a UVM TLM FIFO channel. It connects the put_port of the producer to the put_export of the FIFO channel, and the get_port of the consumer to the get_export of the FIFO channel.
+
+// The main module, "test", instantiates an object of the env class and runs the "run_test" function. 
+
+
+`include "uvm_macros.svh"
+
+//----------------------------------------------------------------------
+// top module
+//----------------------------------------------------------------------
+
+module test;
+  import uvm_pkg::*;
+
+//----------------------------------------------------------------------
+// producer class
+//----------------------------------------------------------------------
+  
+  class producer extends uvm_component;
+    uvm_blocking_put_port#(int) put_port;
+
+    function new(string name, uvm_component p = null);
+      super.new(name,p);
+      put_port = new("put_port", this);
+    endfunction
+    
+    task run_phase(uvm_phase phase);
+      int randval;
+      repeat (10) begin
+        randval = $random % 100;
+        #10;
+        `uvm_info("producer", $sformatf("sending %4d", randval), UVM_MEDIUM)
+        put_port.put(randval);
+      end
+    endtask
+  endclass
+ 
+//----------------------------------------------------------------------
+// consumer class
+//----------------------------------------------------------------------
+  
+  class consumer extends uvm_component;
+    uvm_blocking_get_port#(int) get_port;
+
+    function new(string name, uvm_component p = null);
+      super.new(name,p);
+      get_port = new("get_port", this);
+    endfunction
+    
+    task run_phase(uvm_phase phase);
+      int val;
+      forever begin
+        get_port.get(val);
+        `uvm_info("consumer", $sformatf("receiving %4d", val), UVM_MEDIUM)
+      end
+    endtask
+  endclass
+  
+//----------------------------------------------------------------------
+// env class
+//----------------------------------------------------------------------
+  
+  class env extends uvm_env;
+    producer p = new("producer", this);
+    consumer c = new("consumer", this);
+    uvm_tlm_fifo #(int) f = new("fifo", this);
+    function new(string name = "env");
+      super.new(name);
+      p.put_port.connect(f.put_export);
+      c.get_port.connect(f.get_export);
+      $display("fifo put_export: %s", f.m_name);
+    endfunction
+    
+    task run_phase(uvm_phase phase);
+      phase.raise_objection(this);
+      #1000;
+      phase.drop_objection(this);
+    endtask
+  endclass
+  
+//----------------------------------------------------------------------
+// top module (main body)
+//----------------------------------------------------------------------  
+  
+  env e = new();
+
+  initial run_test();
+endmodule // test
