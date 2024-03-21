@@ -16,6 +16,7 @@ A constraint (wr_rd_c) is imposed to ensure that either a write (wr_en = 1) or a
 
 
 The seq_item_tb module instantiates the mem_seq_item class, creates an instance of it, randomizes its fields, and prints the randomized sequence item.
+
 ![Screenshot 2024-03-20 203228](https://github.com/JohnBagshaw/UVM/assets/84130776/e21edcd6-df16-4ffe-8b6b-1172dc775af4)
 
 
