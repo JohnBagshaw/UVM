@@ -1,3 +1,23 @@
+# Memory DUT Verification (FIFO, Buffer, RAM, DDR, DMA) for create() and print() Methods
+Using uvm sequence item create() and print() methods.
+
+OVERVIEW:
+
+This code defines a UVM sequence item class named mem_seq_item used for generating transactions in a verification environment. It contains control information (addr, wr_en, and rd_en) representing address and read/write enable signals, and payload information (wdata and rdata) representing data to be written and read.
+
+
+The class utilizes UVM field macros to automate tasks related to field manipulation, such as printing, copying, and comparing objects. These macros (uvm_field_int) are used to declare the fields of the sequence item class.
+
+
+A constructor is defined to initialize the sequence item with a default name.
+
+
+A constraint (wr_rd_c) is imposed to ensure that either a write (wr_en = 1) or a read (rd_en = 1) operation is generated, but not both simultaneously.
+
+
+The seq_item_tb module instantiates the mem_seq_item class, creates an instance of it, randomizes its fields, and prints the randomized sequence item.
+
+
 # Producer_Consumer_TB_JohnB_UVM
 Design Verification Tasks
 "Simple Producer-Consumer Communication Testbench Using UVM Methodology" (towards helping newbies and related interest groups)
