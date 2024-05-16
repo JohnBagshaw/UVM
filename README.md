@@ -19,10 +19,6 @@ The seq_item_tb module instantiates the mem_seq_item class, creates an instance 
 
 ![Screenshot 2024-05-15 205355](https://github.com/JohnBagshaw/UVM/assets/84130776/154ac633-b9ea-4aff-8c80-37c7121a10c6)
 
-![Screenshot 2024-0305-20 203228](https://github.com/JohnBagshaw/UVM/assets/84130776/e21edcd6-df16-4ffe-8b6b-1172dc775af4)
-
-
-
 # Producer_Consumer_TB_JohnB_UVM
 Design Verification Tasks
 "Simple Producer-Consumer Communication Testbench Using UVM Methodology" (towards helping newbies and related interest groups)
