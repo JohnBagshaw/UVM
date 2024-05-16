@@ -68,7 +68,7 @@ module seq_item_tb;
   task run_test(string test_name, bit [3:0] addr = '0, bit [7:0] wdata = '0, bit wr_en = 'x, bit rd_en = 'x);
     `uvm_info("seq_item_tb", $sformatf("Starting %s", test_name), UVM_LOW)
     
-    // Create method with improved syntax
+    // Create method
     seq_item = mem_seq_item::type_id::create("seq_item");
     
     // Assign specific values if provided
